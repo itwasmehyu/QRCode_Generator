@@ -3,8 +3,10 @@ function generateQRCode() {
     let qrContainer = document.getElementById("qrcode");
     let downloadBtn = document.getElementById("download-btn");
 
-    // Xóa QR code cũ (nếu có)
+    // Xóa QR code cũ trước khi tạo mới
     qrContainer.innerHTML = "";
+    qrContainer.classList.remove("expired");
+    downloadBtn.style.display = "none";
 
     if (text.trim() !== "") {
         let qr = new QRCode(qrContainer, {
@@ -13,15 +15,21 @@ function generateQRCode() {
             height: 200
         });
 
-        // Thêm hiệu ứng xuất hiện
+        qrContainer.classList.add("show");
+        downloadBtn.textContent = "Download";
+        downloadBtn.style.display = "inline-block";
+
+        // Sau 5 giây, đổi thành "Nhập lại URL" và gạch chéo QR code
         setTimeout(() => {
-            qrContainer.classList.add("show");
-            downloadBtn.style.display = "inline-block";
-        }, 100);
+            downloadBtn.textContent = "QR Code expired, please type URL in search bar!";
+            downloadBtn.onclick = () => location.reload();
+            qrContainer.classList.add("expired");
+        }, 600000);
     } else {
-        alert("Vui lòng nhập nội dung!");
+        alert("Please enter!");
     }
 }
+
 
 // Chức năng tải QR Code
 function downloadQRCode() {

@@ -76,3 +76,26 @@ input:focus {
         opacity: 1;
     }
 }
+
+.expired {
+    position: relative;
+    display: inline-block;
+}
+
+.expired::before,
+.expired::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: red;
+    transform: rotate(45deg);
+    opacity: 0.7;
+    z-index: 10;
+}
+
+.expired::after {
+    transform: rotate(-45deg);
+}
